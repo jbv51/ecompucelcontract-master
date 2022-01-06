@@ -1,3 +1,4 @@
+import 'package:ecompusellcontractor/Services/rabill.dart';
 import 'package:ecompusellcontractor/Utility/Utils.dart';
 import 'package:ecompusellcontractor/login/LoginBloc.dart';
 import 'package:ecompusellcontractor/login/LoginPage.dart';
@@ -78,6 +79,11 @@ class Home_page extends StatelessWidget {
               Utils.showToast("Click event on $name");
               break; case "EMB":
             Utils.showToast("Click event on $name");
+    Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+    builder: (context) =>
+   rabill()));
               break; case "EBILL":
             Utils.showToast("Click event on $name");
               break; case "MONITORING":

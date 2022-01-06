@@ -14,11 +14,11 @@ class Home_page extends StatelessWidget {
         crossAxisCount: 2,
         children: <Widget>[
           gridimage("assets/images/ecompse.jpg", "PROFILE",context),
-          gridimage("assets/images/ecompse.jpg", "EMB",context),
-          gridimage("assets/images/ecompse.jpg", "EBILL",context),
-          gridimage("assets/images/ecompse.jpg", "MONITORING",context),
-          gridimage("assets/images/ecompse.jpg", "REPORTS",context),
-          gridimage("assets/images/ecompse.jpg", "LOGOUT",context)
+          gridimage("assets/images/guide.png", "EMB",context),
+          gridimage("assets/images/bill.png", "EBILL",context),
+          gridimage("assets/images/dashboard.png", "MONITORING",context),
+          gridimage("assets/images/report.png", "REPORTS",context),
+          gridimage("assets/images/power.png", "LOGOUT",context)
         ],
       ),
     );

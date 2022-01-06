@@ -85,7 +85,7 @@ class Home_page extends StatelessWidget {
               break; case "REPORTS":
             Utils.showToast("Click event on $name");
               break;case "LOGOUT":
-            Utils.showToast("Click event on $name");
+            // Utils.showToast("Click event on $name");
             // Navigator.of(context).pop();
 
             showDialog(

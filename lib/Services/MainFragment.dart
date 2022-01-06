@@ -16,6 +16,7 @@ import 'package:ecompusellcontractor/Utility/SessionManager.dart';
 import 'package:ecompusellcontractor/Utility/Utils.dart';
 import 'package:ecompusellcontractor/login/LoginBloc.dart';
 import 'package:ecompusellcontractor/login/LoginPage.dart';
+
 // import 'package:farmerp/Common/ComFarmerSelection.dart';
 // import 'package:farmerp/Common/CommonSingleList.dart';
 // import 'package:farmerp/dynamicUtils/AttachmentDetails.dart';
@@ -228,6 +229,7 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
 //
 // import '../TreeObservation/view/TOMainList.dart';
 // import '../chatSystem/bloc/FCMInit.dart';
@@ -455,7 +457,8 @@ class MainFragmentState extends State<MainFragment>
   checkForPlayStoreAPKUpdate() async {
     String apiAppVersion;
     try {
-      String url = "https://farmerp-faa4d-default-rtdb.asia-southeast1.firebasedatabase.app/data.json";
+      String url =
+          "https://farmerp-faa4d-default-rtdb.asia-southeast1.firebasedatabase.app/data.json";
       Uri uri = Uri.parse(url);
       Utils.showLog("FirebaseDatabaseAPPVersionURI", url);
 
@@ -470,12 +473,16 @@ class MainFragmentState extends State<MainFragment>
         switch (ApiUtils.client) {
           case Clients.FarmerERPTest:
             {
-              apiAppVersion = AppVersion.fromJsonAppVersion(json.decode(response.body)).farmErp;
+              apiAppVersion =
+                  AppVersion.fromJsonAppVersion(json.decode(response.body))
+                      .farmErp;
             }
             break;
           case Clients.E20:
             {
-              apiAppVersion = AppVersion.fromJsonAppVersion(json.decode(response.body)).farmErpe20;
+              apiAppVersion =
+                  AppVersion.fromJsonAppVersion(json.decode(response.body))
+                      .farmErpe20;
             }
             break;
         }
@@ -485,22 +492,24 @@ class MainFragmentState extends State<MainFragment>
         Utils.showLog("APK VERSION", Constants.AppVersion);
         appVersion = Constants.AppVersion;
       }
-    } catch (e,s){
+    } catch (e, s) {
       Utils.showException(e, s);
     }
 
-    if(!Utils.checkString(apiVersion)) {
-
+    if (!Utils.checkString(apiVersion)) {
       List apiVersionSplit = apiVersion.split('.');
       List appVersionSplit = appVersion.split('.');
 
       if (int.parse(apiVersionSplit[0]) > int.parse(appVersionSplit[0])) {
         isAppUpdateVisible = true;
-      } else if (int.parse(apiVersionSplit[1]) > int.parse(appVersionSplit[1])) {
+      } else if (int.parse(apiVersionSplit[1]) >
+          int.parse(appVersionSplit[1])) {
         isAppUpdateVisible = true;
-      } else if (int.parse(apiVersionSplit[2]) > int.parse(appVersionSplit[2])) {
+      } else if (int.parse(apiVersionSplit[2]) >
+          int.parse(appVersionSplit[2])) {
         isAppUpdateVisible = true;
-      } else if (int.parse(apiVersionSplit[3]) > int.parse(appVersionSplit[3])) {
+      } else if (int.parse(apiVersionSplit[3]) >
+          int.parse(appVersionSplit[3])) {
         isAppUpdateVisible = true;
       }
       // else if (int.parse(apiVersionSplit[4]) > int.parse(appVersionSplit[4])) {
@@ -533,17 +542,17 @@ class MainFragmentState extends State<MainFragment>
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(top: Utils.getSize(20.0)),
-                                padding: EdgeInsets.only(left: Utils.getSize(20.0)),
-                                child: DynamicViews().text(
-                                    context,
-                                    string.UpdateAvailable,
-                                    22,
-                                    FontWeight.bold,
-                                    RColors.black,
-                                    TextAlign.start),
-                              ),
+                          Container(
+                            margin: EdgeInsets.only(top: Utils.getSize(20.0)),
+                            padding: EdgeInsets.only(left: Utils.getSize(20.0)),
+                            child: DynamicViews().text(
+                                context,
+                                string.UpdateAvailable,
+                                22,
+                                FontWeight.bold,
+                                RColors.black,
+                                TextAlign.start),
+                          ),
                           Container(
                             margin: EdgeInsets.only(top: Utils.getSize(20.0)),
                             padding: EdgeInsets.only(left: Utils.getSize(20.0)),
@@ -556,7 +565,8 @@ class MainFragmentState extends State<MainFragment>
                                 TextAlign.start),
                           ),
                           Container(
-                            padding: EdgeInsets.only(right: Utils.getSize(15.0)),
+                            padding:
+                                EdgeInsets.only(right: Utils.getSize(15.0)),
                             margin: EdgeInsets.only(
                                 top: Utils.getSize(40.0),
                                 // bottom: Utils.getSize(30.0),
@@ -608,6 +618,7 @@ class MainFragmentState extends State<MainFragment>
   }
 
   static double per;
+
   // MFPresenter mfPresenter = MFPresenter();
 
   var currentState;
@@ -649,12 +660,14 @@ class MainFragmentState extends State<MainFragment>
   var setStateAPKProgressDialog;
 
   Localemain string;
+
   bool isRTL() => Directionality.of(context)
       .toString()
       .contains(TextDirection.RTL.value.toLowerCase());
+
   @override
   Widget build(BuildContext context) {
-    if(isRTL())
+    if (isRTL())
       rightOffset = 300;
     else
       rightOffset = 10;
@@ -675,7 +688,7 @@ class MainFragmentState extends State<MainFragment>
       // selectedNavigationBar = 3;
       showFB = false;
     } else if (Constants.IssueTransferGoodsReturn == serviceCode) {
-     title=string.GoodsReturnIssueTransfer;
+      title = string.GoodsReturnIssueTransfer;
     } else
       selectedNavigationBar = 0;
 
@@ -685,7 +698,7 @@ class MainFragmentState extends State<MainFragment>
     ]);
 
     //vertical floating bar
-  /*  List<CustChildFB> childButtons =[];
+    /*  List<CustChildFB> childButtons =[];
 
     childButtons.add(CustChildFB(
         hasLabel: true,
@@ -906,7 +919,7 @@ class MainFragmentState extends State<MainFragment>
                         )),
                 extendBody: true,
                 bottomNavigationBar: Container(height: 0),
-                  /*  ? BottomAppBar(
+                /*  ? BottomAppBar(
                         // color: Colors.blue,
                         color: Colors.transparent,
                         notchMargin: Utils.getSize(5.0),
@@ -980,130 +993,130 @@ class MainFragmentState extends State<MainFragment>
                                         //   child:
                                         // ),
 
-                        // Align(
-                        //   alignment: Alignment.center,
-                        //   child: CustFloatingButton(
-                        //       backgroundColor:
-                        //       Colors.transparent,
-                        //       // Color.fromRGBO(255, 255, 255, 0.6),
-                        //       parentButtonBackground:
-                        //       RColors.bgBottomNavigation,
-                        //       orientation:
-                        //       UnicornOrientation.VERTICAL,
-                        //       hasNotch: true,
-                        //       // childPadding: Utils.getSize(30),
-                        //       parentButton: Icon(Icons.add),
-                        //       childButtons: childButtons),
-                        // ),
-                        // IgnorePointer(
-                        //     child: Container(
-                        //         height: Utils.getSize(40),
-                        //         width: Utils.getSize(40),
-                        //         // padding: EdgeInsets.all(Utils.getSize(15)),
-                        //         alignment: Alignment.center,
-                        //         decoration: BoxDecoration(
-                        //           color: RColors.bgBottomNavigation,
-                        //           shape: BoxShape.circle,
-                        //         ),
-                        //         child: Icon(
-                        //           Icons.add,
-                        //           size: Utils.getSize(20),
-                        //           color: Colors.white,
-                        //         ))),
-                      ],
-                    ))
-                    : Container()
-                // : Container(
-                //     color: RColors.blue,
-                //     alignment: Alignment.bottomCenter,
-                //     margin: EdgeInsets.all(Utils.getSize(20)),
-                //     child: FabCircularMenu(
-                //       key: fabKey,
-                //       // Cannot be `Alignment.center`
-                //       alignment: Alignment.bottomCenter,
-                //       ringColor: Colors.transparent,
-                //       //Colors.white.withAlpha(25),
-                //       ringDiameter: 500.0,
-                //       ringWidth: 150.0,
-                //       fabSize: 64.0,
-                //       // fabElevation: 8.0,
-                //       fabIconBorder: CircleBorder(),
-                //       // Also can use specific color based on wether
-                //       // the menu is open or not:
-                //       // fabOpenColor: Colors.white
-                //       // fabCloseColor: Colors.white
-                //       // These properties take precedence over fabColor
-                //       fabColor: Colors.white,
-                //       // final primaryColor = Theme.of(context).primaryColor;
-                //       fabOpenIcon: Icon(Icons.menu, color: RColors.blue),
-                //       fabCloseIcon: Icon(Icons.close, color: RColors.blue),
-                //       // fabMargin:
-                //       // const EdgeInsets.all(16.0),
-                //       animationDuration: const Duration(milliseconds: 800),
-                //       animationCurve: Curves.easeInOutCirc,
-                //       onDisplayChange: (isOpen) {
-                //         _showSnackBar(context, "The menu is ${isOpen ? "open" : "closed"}");
-                //       },
-                //       children: <Widget>[
-                //         RawMaterialButton(
-                //           onPressed: () {
-                //             _showSnackBar(context, "You pressed 1");
-                //           },
-                //           shape: CircleBorder(),
-                //           padding: const EdgeInsets.all(24.0),
-                //           child: Icon(Icons.looks_one, color: Colors.white),
-                //         ),
-                //         RawMaterialButton(
-                //           onPressed: () {
-                //             _showSnackBar(context, "You pressed 2");
-                //           },
-                //           shape: CircleBorder(),
-                //           padding: const EdgeInsets.all(24.0),
-                //           child: Icon(Icons.looks_two, color: Colors.white),
-                //         ),
-                //         RawMaterialButton(
-                //           onPressed: () {
-                //             _showSnackBar(context, "You pressed 3");
-                //           },
-                //           shape: CircleBorder(),
-                //           padding: const EdgeInsets.all(24.0),
-                //           child: Icon(Icons.looks_3, color: Colors.white),
-                //         ),
-                //         RawMaterialButton(
-                //           onPressed: () {
-                //             _showSnackBar(context, "You pressed 4. This one closes the menu on tap");
-                //             fabKey.currentState.close();
-                //           },
-                //           shape: CircleBorder(),
-                //           padding: const EdgeInsets.all(24.0),
-                //           child: Icon(Icons.looks_4, color: Colors.white),
-                //         )
-                //       ],
-                //     ))
-                    : Container(
-                  width: Utils.getSize(52.0),
-                  height: Utils.getSize(52.0),
-                  child: RawMaterialButton(
-                    // fillColor: RColors.bluishGreen,
-                    fillColor: RColors.white,
-                    shape: new CircleBorder(),
-                    elevation: 0.0,
-                    child: new Positioned(
-                      right: 0.0,
-                      bottom: 0.0,
-                      child: new Icon(Icons.scanner),
-                    ),
-                    // Icon(
-                    //   Icons.add,
-                    //   color: Colors.white,
-                    // ),
-                    onPressed: () {
-                      onFloatingButtonPressed();
-                    },
-                  ),
-                )
-                // : Container()
-                    : Container(),
+                                        // Align(
+                                        //   alignment: Alignment.center,
+                                        //   child: CustFloatingButton(
+                                        //       backgroundColor:
+                                        //       Colors.transparent,
+                                        //       // Color.fromRGBO(255, 255, 255, 0.6),
+                                        //       parentButtonBackground:
+                                        //       RColors.bgBottomNavigation,
+                                        //       orientation:
+                                        //       UnicornOrientation.VERTICAL,
+                                        //       hasNotch: true,
+                                        //       // childPadding: Utils.getSize(30),
+                                        //       parentButton: Icon(Icons.add),
+                                        //       childButtons: childButtons),
+                                        // ),
+                                        // IgnorePointer(
+                                        //     child: Container(
+                                        //         height: Utils.getSize(40),
+                                        //         width: Utils.getSize(40),
+                                        //         // padding: EdgeInsets.all(Utils.getSize(15)),
+                                        //         alignment: Alignment.center,
+                                        //         decoration: BoxDecoration(
+                                        //           color: RColors.bgBottomNavigation,
+                                        //           shape: BoxShape.circle,
+                                        //         ),
+                                        //         child: Icon(
+                                        //           Icons.add,
+                                        //           size: Utils.getSize(20),
+                                        //           color: Colors.white,
+                                        //         ))),
+                                      ],
+                                    ))
+                                : Container()
+                            // : Container(
+                            //     color: RColors.blue,
+                            //     alignment: Alignment.bottomCenter,
+                            //     margin: EdgeInsets.all(Utils.getSize(20)),
+                            //     child: FabCircularMenu(
+                            //       key: fabKey,
+                            //       // Cannot be `Alignment.center`
+                            //       alignment: Alignment.bottomCenter,
+                            //       ringColor: Colors.transparent,
+                            //       //Colors.white.withAlpha(25),
+                            //       ringDiameter: 500.0,
+                            //       ringWidth: 150.0,
+                            //       fabSize: 64.0,
+                            //       // fabElevation: 8.0,
+                            //       fabIconBorder: CircleBorder(),
+                            //       // Also can use specific color based on wether
+                            //       // the menu is open or not:
+                            //       // fabOpenColor: Colors.white
+                            //       // fabCloseColor: Colors.white
+                            //       // These properties take precedence over fabColor
+                            //       fabColor: Colors.white,
+                            //       // final primaryColor = Theme.of(context).primaryColor;
+                            //       fabOpenIcon: Icon(Icons.menu, color: RColors.blue),
+                            //       fabCloseIcon: Icon(Icons.close, color: RColors.blue),
+                            //       // fabMargin:
+                            //       // const EdgeInsets.all(16.0),
+                            //       animationDuration: const Duration(milliseconds: 800),
+                            //       animationCurve: Curves.easeInOutCirc,
+                            //       onDisplayChange: (isOpen) {
+                            //         _showSnackBar(context, "The menu is ${isOpen ? "open" : "closed"}");
+                            //       },
+                            //       children: <Widget>[
+                            //         RawMaterialButton(
+                            //           onPressed: () {
+                            //             _showSnackBar(context, "You pressed 1");
+                            //           },
+                            //           shape: CircleBorder(),
+                            //           padding: const EdgeInsets.all(24.0),
+                            //           child: Icon(Icons.looks_one, color: Colors.white),
+                            //         ),
+                            //         RawMaterialButton(
+                            //           onPressed: () {
+                            //             _showSnackBar(context, "You pressed 2");
+                            //           },
+                            //           shape: CircleBorder(),
+                            //           padding: const EdgeInsets.all(24.0),
+                            //           child: Icon(Icons.looks_two, color: Colors.white),
+                            //         ),
+                            //         RawMaterialButton(
+                            //           onPressed: () {
+                            //             _showSnackBar(context, "You pressed 3");
+                            //           },
+                            //           shape: CircleBorder(),
+                            //           padding: const EdgeInsets.all(24.0),
+                            //           child: Icon(Icons.looks_3, color: Colors.white),
+                            //         ),
+                            //         RawMaterialButton(
+                            //           onPressed: () {
+                            //             _showSnackBar(context, "You pressed 4. This one closes the menu on tap");
+                            //             fabKey.currentState.close();
+                            //           },
+                            //           shape: CircleBorder(),
+                            //           padding: const EdgeInsets.all(24.0),
+                            //           child: Icon(Icons.looks_4, color: Colors.white),
+                            //         )
+                            //       ],
+                            //     ))
+                            : Container(
+                                // width: Utils.getSize(52.0),
+                                // height: Utils.getSize(52.0),
+                                // child: RawMaterialButton(
+                                //   // fillColor: RColors.bluishGreen,
+                                //   fillColor: RColors.white,
+                                //   shape: new CircleBorder(),
+                                //   elevation: 0.0,
+                                //   child: new Positioned(
+                                //     right: 0.0,
+                                //     bottom: 0.0,
+                                //     child: new Icon(Icons.scanner),
+                                //   ),
+                                //   // Icon(
+                                //   //   Icons.add,
+                                //   //   color: Colors.white,
+                                //   // ),
+                                //   onPressed: () {
+                                //     onFloatingButtonPressed();
+                                //   },
+
+                                )
+                        // : Container()
+                        : Container(),
                 drawerEnableOpenDragGesture: showAppBar ?? true,
 
                 drawer: SafeArea(
@@ -1111,8 +1124,8 @@ class MainFragmentState extends State<MainFragment>
                         width: Utils.getSize(300.0), child: drawer())),
 // Populate the Drawer in the next step.
               ))
-        //block ended
-      );
+          //block ended
+          );
 //     else
 //       return MaterialApp(
 //         localizationsDelegates: [
@@ -1574,6 +1587,7 @@ class MainFragmentState extends State<MainFragment>
   // }
 
   BuildContext bottomSheetConext;
+
   //
   // void _showBottomSheet(String mServiceCodes, String mQRDataType, String mText1,
   //     String mText2) async {
@@ -2194,7 +2208,6 @@ class MainFragmentState extends State<MainFragment>
   //       ;
   // }
 
-
   //floating start
   verticleCircle() {
     return Column(
@@ -2218,7 +2231,7 @@ class MainFragmentState extends State<MainFragment>
       children: <Widget>[
         RawMaterialButton(
           fillColor:
-          lastTapped == menuData.iconData ? Colors.amber[700] : Colors.blue,
+              lastTapped == menuData.iconData ? Colors.amber[700] : Colors.blue,
           splashColor: Colors.amber[100],
           shape: CircleBorder(),
           onPressed: () {
@@ -2467,8 +2480,8 @@ class MainFragmentState extends State<MainFragment>
                     //     false,
                     //     true),
 
-                    Logout("assets/rebootDesign/svgImgs/F_LogOut.svg",
-                        "Logout", true),
+                    Logout("assets/rebootDesign/svgImgs/F_LogOut.svg", "Logout",
+                        true),
                     // singleItem("assets/rebootDesign/svgImgs/F_Settings.svg", "CSMainList",
                     //     string.cropSchedule, false, true),
                     // singleItem("assets/rebootDesign/svgImgs/F_LogOut.svg", "Logout",string.Logout,false, true),
@@ -2527,7 +2540,7 @@ class MainFragmentState extends State<MainFragment>
             // Navigator.push(context, MaterialPageRoute(builder: (context) => Setting()));
 
           }
-        /*  else if (className == "AnalyticsDashboard") {
+          /*  else if (className == "AnalyticsDashboard") {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => RaiseTicket(URL)));
           } */
@@ -2553,40 +2566,40 @@ class MainFragmentState extends State<MainFragment>
         },
         child: Container(
             child: Column(
-              children: <Widget>[
-                Container(
+          children: <Widget>[
+            Container(
 //      height: 55,
-                  margin: EdgeInsets.only(
-                    top: Utils.getSize(18.0),
-                  ),
-                  child: Column(
+              margin: EdgeInsets.only(
+                top: Utils.getSize(18.0),
+              ),
+              child: Column(
+                children: <Widget>[
+                  Row(
                     children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Container(
-                            width: Utils.getSize(16.0),
-                            child: DynamicViews().imageAsset2(
-                                context, image, 16, Colors.black,
-                                isSVG: isSVG),
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          DynamicViews().text(
-                              context,
-                              title == "Dashboard" ? "Home" : title,
-                              16,
-                              FontWeight.normal,
-                              RColors.textColorDark,
-                              TextAlign.left),
-                        ],
+                      Container(
+                        width: Utils.getSize(16.0),
+                        child: DynamicViews().imageAsset2(
+                            context, image, 16, Colors.black,
+                            isSVG: isSVG),
                       ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      DynamicViews().text(
+                          context,
+                          title == "Dashboard" ? "Home" : title,
+                          16,
+                          FontWeight.normal,
+                          RColors.textColorDark,
+                          TextAlign.left),
                     ],
                   ),
-                ),
-                seperator(),
-              ],
-            )));
+                ],
+              ),
+            ),
+            seperator(),
+          ],
+        )));
   }
 
   Logout(image, title, isSVG) {
@@ -2595,85 +2608,86 @@ class MainFragmentState extends State<MainFragment>
       onTap: () {
         Future.delayed(Duration.zero, () {
           showDialog(
-              context: context,
-              builder: (context) =>
-              // WillPopScope(
-              // onWillPop: () {
-              //   Navigator.pop(context, true);
-              // },
-              // child:
-              Dialog(
-                  elevation: 0.0,
-                  insetPadding: EdgeInsets.all(Utils.getSize(32.0)),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
+                  context: context,
+                  builder: (context) =>
+                      // WillPopScope(
+                      // onWillPop: () {
+                      //   Navigator.pop(context, true);
+                      // },
+                      // child:
+                      Dialog(
+                          elevation: 0.0,
+                          insetPadding: EdgeInsets.all(Utils.getSize(32.0)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
 //            elevation: 0.0,
-                  backgroundColor: Colors.transparent,
-                  child: Container(
+                          backgroundColor: Colors.transparent,
+                          child: Container(
 //                height: Utils.getSize(172.0),
 //                             width: Utils.getSize(100.0),
-                      decoration: BoxDecoration(
-                        borderRadius: new BorderRadius.circular(4),
+                              decoration: BoxDecoration(
+                                borderRadius: new BorderRadius.circular(4),
 //            side: BorderSide(color: Colors.red)
-                        color: RColors.white,
-                      ),
-                      padding: EdgeInsets.all(Utils.getSize(14.0)),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
+                                color: RColors.white,
+                              ),
+                              padding: EdgeInsets.all(Utils.getSize(14.0)),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
 //                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          SizedBox(
-                            height: Utils.getSize(16.0),
-                          ),
-                          DynamicViews().text(
-                              context,
-                              "Are you Sure.\nYou want to Logout from FarmERP?",
-                              16,
-                              FontWeight.bold,
-                              RColors.textColorDark,
-                              TextAlign.center),
-                          SizedBox(
-                            height: Utils.getSize(16.0),
-                          ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: DynamicViews(
-                                    onTap: () async {
-                                      SessionManager.clearSession();
+                                children: <Widget>[
+                                  SizedBox(
+                                    height: Utils.getSize(16.0),
+                                  ),
+                                  DynamicViews().text(
+                                      context,
+                                      "Are you Sure.\nYou want to Logout from FarmERP?",
+                                      16,
+                                      FontWeight.bold,
+                                      RColors.textColorDark,
+                                      TextAlign.center),
+                                  SizedBox(
+                                    height: Utils.getSize(16.0),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: DynamicViews(
+                                                onTap: () async {
+                                                  SessionManager.clearSession();
 
-                                      Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LoginPageWidget(
-                                                      title: "",
-                                                      state: LoginState.Login)));
-                                    },
-                                    title: string.Yes,
-                                    context: context,
-                                    bgColor: RColors.yellow)
-                                    .button(),
-                                flex: 1,
-                              ),
-                              DynamicViews.sizedBox(width: 14),
-                              Expanded(
-                                child: DynamicViews(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    title: string.Cancel,
-                                    context: context,
-                                    bgColor: RColors.yellow)
-                                    .button(),
-                                flex: 1,
-                              ),
-                            ],
-                          )
-                        ],
-                      ))))
-          // )
+                                                  Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              LoginPageWidget(
+                                                                  title: "",
+                                                                  state: LoginState
+                                                                      .Login)));
+                                                },
+                                                title: string.Yes,
+                                                context: context,
+                                                bgColor: RColors.yellow)
+                                            .button(),
+                                        flex: 1,
+                                      ),
+                                      DynamicViews.sizedBox(width: 14),
+                                      Expanded(
+                                        child: DynamicViews(
+                                                onTap: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                title: string.Cancel,
+                                                context: context,
+                                                bgColor: RColors.yellow)
+                                            .button(),
+                                        flex: 1,
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ))))
+              // )
               ;
         });
       },
@@ -3175,7 +3189,7 @@ class MainFragmentState extends State<MainFragment>
     dContext = context;
     return Container(
         margin:
-        EdgeInsets.only(bottom: showABShadow ? Utils.getSize(10.0) : 0.0),
+            EdgeInsets.only(bottom: showABShadow ? Utils.getSize(10.0) : 0.0),
         padding: EdgeInsets.only(
             left: Utils.getSize(16.0),
             right: Utils.getSize(20.0),
@@ -3192,7 +3206,7 @@ class MainFragmentState extends State<MainFragment>
           ],
         ),
         child:
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Row(
             children: <Widget>[
               GestureDetector(
@@ -3211,7 +3225,7 @@ class MainFragmentState extends State<MainFragment>
               Container(
                 width: Utils.getSize(180.0),
                 child: Text(
-                  (title??"").replaceAll(' ', '\u00A0'),
+                  (title ?? "").replaceAll(' ', '\u00A0'),
                   textAlign: TextAlign.start,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -3229,54 +3243,53 @@ class MainFragmentState extends State<MainFragment>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
+//               GestureDetector(
+//                 onTap: () {
+// //                  Navigator.pushReplacement(
+// //                      context,
+// //                      MaterialPageRoute(
+// //                          builder: (context) =>
+// //                              MainFragment("ServiceList", "Services", false)));
+//                   setState(() {
+//                     serviceCode = "ServiceList";
+//                     this.title = string.Services;
+//                     showFB = false;
+//                     showBN = false;
+//                   });
+//                 },
+//                 child:  new Positioned(
+//     right: 0.0,
+//     bottom: 0.0,
+//     child: new Icon(Icons.home_repair_service_rounded)),
+//                 // Image.asset(
+//                 //   "assets/rebootDesign/homePage/scale300/Settings@3x.png",
+//                 //   height: Utils.getSize(24.0),
+//                 //   fit: BoxFit.contain,
+//                 // ),
+//               ),
+//               SizedBox(
+//                 width: Utils.getSize(14.0),
+//               ),
+//               GestureDetector(
+//                 onTap: () {
+//                   //Code commented by amit to disable click
+//                   // callFragment("HelpView", "Help", false, false);
+//                   //callFragment("GTMainList_ON", "Help", false, false);
+//                 },
+//                 child: new Positioned(
+//     right: 0.0,
+//     bottom: 0.0,
+//     child: new Icon(Icons.scanner))
+//               ),
+//               SizedBox(
+//                 width: Utils.getSize(12.0),
+//               ),
               GestureDetector(
-                onTap: () {
-//                  Navigator.pushReplacement(
-//                      context,
-//                      MaterialPageRoute(
-//                          builder: (context) =>
-//                              MainFragment("ServiceList", "Services", false)));
-                  setState(() {
-                    serviceCode = "ServiceList";
-                    this.title = string.Services;
-                    showFB = false;
-                    showBN = false;
-                  });
-                },
-                child:  new Positioned(
-    right: 0.0,
-    bottom: 0.0,
-    child: new Icon(Icons.home_repair_service_rounded)),
-                // Image.asset(
-                //   "assets/rebootDesign/homePage/scale300/Settings@3x.png",
-                //   height: Utils.getSize(24.0),
-                //   fit: BoxFit.contain,
-                // ),
-              ),
-              SizedBox(
-                width: Utils.getSize(14.0),
-              ),
-              GestureDetector(
-                onTap: () {
-                  //Code commented by amit to disable click
-                  // callFragment("HelpView", "Help", false, false);
-                  //callFragment("GTMainList_ON", "Help", false, false);
-                },
-                child: new Positioned(
-    right: 0.0,
-    bottom: 0.0,
-    child: new Icon(Icons.scanner))
-              ),
-              SizedBox(
-                width: Utils.getSize(12.0),
-              ),
-              GestureDetector(
-                onTap: () {},
-                child:  new Positioned(
-    right: 0.0,
-    bottom: 0.0,
-    child: new Icon(Icons.notification_add)
-              ))
+                  onTap: () {},
+                  child: new Positioned(
+                      right: 0.0,
+                      bottom: 0.0,
+                      child: new Icon(Icons.notification_add)))
             ],
           )
         ]));
@@ -3291,26 +3304,26 @@ class MainFragmentState extends State<MainFragment>
 //            builder: (context, snapshot) {
 //              if (snapshot.hasData) {
 //                return
-        ListView.builder(
-          shrinkWrap: true,
+            ListView.builder(
+      shrinkWrap: true,
 //                              padding: const EdgeInsets.all(8),
-          itemCount: 10,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-                child: GestureDetector(
-                    onTap: () {},
-                    child: Card(
+      itemCount: 10,
+      itemBuilder: (BuildContext context, int index) {
+        return Container(
+            child: GestureDetector(
+                onTap: () {},
+                child: Card(
 //                            child: Text("main data list")));
-                        child: Container(
-                            padding: EdgeInsets.all(Utils.getSize(10.0)),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Text("List index : " + index.toString())
-                              ],
-                            )))));
-          },
-        ));
+                    child: Container(
+                        padding: EdgeInsets.all(Utils.getSize(10.0)),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text("List index : " + index.toString())
+                          ],
+                        )))));
+      },
+    ));
   }
 
   // SLPresenter slPresenter;
@@ -3767,7 +3780,7 @@ class MainFragmentState extends State<MainFragment>
 
             }
           }
-        }*//*
+        }*/ /*
 
         // callFragment("LATActivityMain", "Labour Activity Tracking", false, false);
       } else {
@@ -4015,19 +4028,18 @@ class MainFragmentState extends State<MainFragment>
   askDownloadDialog() {
     return showDialog(
         context: context,
-        builder: (context) =>
-            WillPopScope(
-                onWillPop: () {
-                  Utils.showToast("Click on download button to upgrade !");
-                },
-                child: Dialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    elevation: 0.0,
-                    backgroundColor: Colors.transparent,
-                    child: Container(
-                        height: Utils.getSize(200.0),
+        builder: (context) => WillPopScope(
+            onWillPop: () {
+              Utils.showToast("Click on download button to upgrade !");
+            },
+            child: Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                elevation: 0.0,
+                backgroundColor: Colors.transparent,
+                child: Container(
+                    height: Utils.getSize(200.0),
 //                margin: const EdgeInsets.only(left: 26, right: 26),
                     child: Card(
                         child: Column(
@@ -4035,63 +4047,64 @@ class MainFragmentState extends State<MainFragment>
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(top: Utils.getSize(20.0)),
-                                padding: EdgeInsets.only(left: Utils.getSize(20.0)),
-                                child: DynamicViews().text(
-                                    context,
-                                    string.UpdateAvailable,
-                                    22,
-                                    FontWeight.bold,
-                                    RColors.black,
-                                    TextAlign.start),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(top: Utils.getSize(20.0)),
-                                padding: EdgeInsets.only(left: Utils.getSize(20.0)),
-                                child: DynamicViews().text(
-                                    context,
-                                    string.NewVersionAvailable,
-                                    16,
-                                    FontWeight.normal,
-                                    RColors.black,
-                                    TextAlign.start),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(right: Utils.getSize(15.0)),
-                                margin: EdgeInsets.only(
-                                    top: Utils.getSize(40.0),
-                                    // bottom: Utils.getSize(30.0),
-                                    left: Utils.getSize(10.0),
-                                    right: Utils.getSize(10.0)),
-                                child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      ButtonTheme(
-                                          minWidth: 100.0,
-                                          child: RaisedButton(
-                                              onPressed: () {
-                                                downloadPath();
-                                                Navigator.pop(context);
-                                              },
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
+                          Container(
+                            margin: EdgeInsets.only(top: Utils.getSize(20.0)),
+                            padding: EdgeInsets.only(left: Utils.getSize(20.0)),
+                            child: DynamicViews().text(
+                                context,
+                                string.UpdateAvailable,
+                                22,
+                                FontWeight.bold,
+                                RColors.black,
+                                TextAlign.start),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(top: Utils.getSize(20.0)),
+                            padding: EdgeInsets.only(left: Utils.getSize(20.0)),
+                            child: DynamicViews().text(
+                                context,
+                                string.NewVersionAvailable,
+                                16,
+                                FontWeight.normal,
+                                RColors.black,
+                                TextAlign.start),
+                          ),
+                          Container(
+                            padding:
+                                EdgeInsets.only(right: Utils.getSize(15.0)),
+                            margin: EdgeInsets.only(
+                                top: Utils.getSize(40.0),
+                                // bottom: Utils.getSize(30.0),
+                                left: Utils.getSize(10.0),
+                                right: Utils.getSize(10.0)),
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  ButtonTheme(
+                                      minWidth: 100.0,
+                                      child: RaisedButton(
+                                          onPressed: () {
+                                            downloadPath();
+                                            Navigator.pop(context);
+                                          },
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
                                                 new BorderRadius.circular(5.0),
-                                              ),
-                                              textColor: Colors.white,
-                                              color: RColors.PrimaryColor,
-                                              padding: EdgeInsets.all(
-                                                  Utils.getSize(5.0)),
-                                              child: new Text(
-                                                string.Update,
-                                                style: new TextStyle(
-                                                  fontSize: Utils.getSize(16.0),
-                                                  color: Colors.white,
-                                                ),
-                                              )))
-                                    ]),
-                              ),
-                            ]))))));
+                                          ),
+                                          textColor: Colors.white,
+                                          color: RColors.PrimaryColor,
+                                          padding: EdgeInsets.all(
+                                              Utils.getSize(5.0)),
+                                          child: new Text(
+                                            string.Update,
+                                            style: new TextStyle(
+                                              fontSize: Utils.getSize(16.0),
+                                              color: Colors.white,
+                                            ),
+                                          )))
+                                ]),
+                          ),
+                        ]))))));
   }
 
   BuildContext progressContext;
@@ -4319,7 +4332,7 @@ class MainFragmentState extends State<MainFragment>
   //   AttachmentDetailsState.remarkStr = "";
   // }
 
- /* switchForQRCalls(String mServiceName) async {
+  /* switchForQRCalls(String mServiceName) async {
     switch (mServiceName) {
       case Constants.MultiplotRecordKeeping:
         // callMRKForm();
@@ -4734,7 +4747,7 @@ class MainFragmentState extends State<MainFragment>
   Future<void> clearCallAttachMaterialIndent() async {
     MISingleTon model = new MISingleTon();
     model.clear();
-    *//*Allow plot wise Material Indent Request*//*
+    */ /*Allow plot wise Material Indent Request*/ /*
     model.isPlotwise = await Utils.getConfigSetting("63");
     callFragment("MIForm", "Material Indent", false, false);
   }
@@ -4791,8 +4804,8 @@ class MainFragmentState extends State<MainFragment>
                 // borderRadius: new BorderRadius.all(new Radius.circular(32.0)),
               ),
               padding:
-              // EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
-              EdgeInsets.all(16.0),
+                  // EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+                  EdgeInsets.all(16.0),
               child: Center(
                 child: new Row(
                   children: [
@@ -4829,8 +4842,7 @@ class MainFragmentState extends State<MainFragment>
   }
 
   void getuserdetals(SessionManager sessionManager) async {
-    String username = "",
-        password = "";
+    String username = "", password = "";
     // AD_Login model =
     // await AD_Login.getuserdetals(await sessionManager.getUserID());
     // username = await sessionManager.getUserID();
@@ -4848,12 +4860,10 @@ class MainFragmentState extends State<MainFragment>
     }
   }
 
-
-
-  // initFCM() async {
-  //   fcmInit.initToken();
-  //   fcmInit.initNotification();
-  // }
+// initFCM() async {
+//   fcmInit.initToken();
+//   fcmInit.initNotification();
+// }
 }
 
 ApkApiResponse apkApiResponseFromJson(String str) =>
@@ -4906,8 +4916,7 @@ class ApkApiResponse {
   String expiryDate;
   String currentDate;
 
-  factory ApkApiResponse.fromJson(Map<String, dynamic> json) =>
-      ApkApiResponse(
+  factory ApkApiResponse.fromJson(Map<String, dynamic> json) => ApkApiResponse(
         apkImportId: json["APKImport_ID"],
         date: json["Date"],
         documentNo: json["Document_No"],
@@ -4930,8 +4939,7 @@ class ApkApiResponse {
         currentDate: json["CurrentDate"],
       );
 
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "APKImport_ID": apkImportId,
         "Date": date,
         "Document_No": documentNo,
@@ -4964,7 +4972,7 @@ class NotchD2 extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final double notchRadius = Utils.getSize(
-        MainFragmentState.camFBSize + (MainFragmentState.notchMargin * 2)) /
+            MainFragmentState.camFBSize + (MainFragmentState.notchMargin * 2)) /
         2.0;
 
     // We build a path for the notch from 3 segments:
@@ -5021,8 +5029,9 @@ class NotchD2 extends CustomClipper<Path> {
         clockwise: false,
       )
       ..quadraticBezierTo(p[4].dx, p[4].dy, p[5].dx, p[5].dy)
-      ..lineTo(size.width, 0)..lineTo(size.width, size.height)..lineTo(
-          0, size.height)
+      ..lineTo(size.width, 0)
+      ..lineTo(size.width, size.height)
+      ..lineTo(0, size.height)
       ..close();
 
     // return path;
@@ -5046,14 +5055,14 @@ class AppVersion {
   String farmErp;
   String farmErpe20;
 
-  factory AppVersion.fromJsonAppVersion(Map<String, dynamic> json) => AppVersion(
-    farmErp: json["FarmERP"],
-    farmErpe20: json["FarmERPE20"],
-  );
+  factory AppVersion.fromJsonAppVersion(Map<String, dynamic> json) =>
+      AppVersion(
+        farmErp: json["FarmERP"],
+        farmErpe20: json["FarmERPE20"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "FarmERP": farmErp,
-    "FarmERPE20": farmErpe20,
-  };
+        "FarmERP": farmErp,
+        "FarmERPE20": farmErpe20,
+      };
 }
-

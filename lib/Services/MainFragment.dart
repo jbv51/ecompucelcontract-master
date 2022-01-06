@@ -7,6 +7,7 @@ import 'package:archive/archive.dart';
 import 'package:dio/dio.dart';
 import 'package:ecompusellcontractor/Dynamic/DynamicViews.dart';
 import 'package:ecompusellcontractor/Services/HomePage.dart';
+import 'package:ecompusellcontractor/Services/Home_page.dart';
 import 'package:ecompusellcontractor/Utility/ApiUtils.dart';
 import 'package:ecompusellcontractor/Utility/Constants.dart';
 import 'package:ecompusellcontractor/Utility/LocaleBase.dart';
@@ -1087,11 +1088,11 @@ class MainFragmentState extends State<MainFragment>
                     fillColor: RColors.white,
                     shape: new CircleBorder(),
                     elevation: 0.0,
-                    child: DynamicViews().svgImageAsset(
-                        context,
-                        "assets/rebootDesign/svgImgs/Artboard_Merged 2_Barcode Scanner.svg",
-                        24,
-                        color: RColors.greenishBlue),
+                    child: new Positioned(
+                      right: 0.0,
+                      bottom: 0.0,
+                      child: new Icon(Icons.scanner),
+                    ),
                     // Icon(
                     //   Icons.add,
                     //   color: Colors.white,
@@ -2727,7 +2728,7 @@ class MainFragmentState extends State<MainFragment>
   service() {
     switch (serviceCode) {
       case "HomePage":
-        return HomePageReboot(mainFragmentState: this);
+        return Home_page();
 /*      case "MapPlotDetails":
         return MapPlotView(mainFragmentState: this);
 
@@ -3164,7 +3165,7 @@ class MainFragmentState extends State<MainFragment>
         return NOForm(mainFragmentState: this);*/
 
       default:
-        return HomePageReboot(mainFragmentState: this);
+        return Home_page();
     }
   }
 
@@ -3242,11 +3243,10 @@ class MainFragmentState extends State<MainFragment>
                     showBN = false;
                   });
                 },
-                child: DynamicViews().svgImageAsset(
-                  context,
-                  "assets/rebootDesign/svgImgs/service.svg",
-                  23.0,
-                ),
+                child:  new Positioned(
+    right: 0.0,
+    bottom: 0.0,
+    child: new Icon(Icons.home_repair_service_rounded)),
                 // Image.asset(
                 //   "assets/rebootDesign/homePage/scale300/Settings@3x.png",
                 //   height: Utils.getSize(24.0),
@@ -3262,23 +3262,21 @@ class MainFragmentState extends State<MainFragment>
                   // callFragment("HelpView", "Help", false, false);
                   //callFragment("GTMainList_ON", "Help", false, false);
                 },
-                child: DynamicViews().svgImageAsset(
-                  context,
-                  "assets/rebootDesign/svgImgs/Artboard_Merged_Help.svg",
-                  25.0,
-                ),
+                child: new Positioned(
+    right: 0.0,
+    bottom: 0.0,
+    child: new Icon(Icons.scanner))
               ),
               SizedBox(
                 width: Utils.getSize(12.0),
               ),
               GestureDetector(
                 onTap: () {},
-                child: DynamicViews().svgImageAsset(
-                  context,
-                  "assets/rebootDesign/svgImgs/Artboard_Merged 2_Notification.svg",
-                  26.0,
-                ),
-              ),
+                child:  new Positioned(
+    right: 0.0,
+    bottom: 0.0,
+    child: new Icon(Icons.notification_add)
+              ))
             ],
           )
         ]));

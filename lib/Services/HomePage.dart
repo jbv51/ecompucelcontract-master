@@ -70,13 +70,7 @@ String historyTask = "0";
 String pendingTask = "0";
 String upcomingTask = "0";
 
-class MenuData {
-  IconData iconData;
-  String text;
-  double angle;
 
-  MenuData({this.iconData, this.text, this.angle});
-}
 
 // class FlowMenuDelegate extends FlowDelegate {
 //   FlowMenuDelegate({this.menuAnimation}) : super(repaint: menuAnimation);
@@ -107,94 +101,6 @@ class MenuData {
 //   }
 // }
 
-class NotchD extends CustomClipper<Path> {
-  NotchD();
-
-  /// The number of points of the star
-  // final int numberOfPoints;
-
-  @override
-  Path getClip(Size size) {
-
-    // We build a path for the notch from 3 segments:
-    // Segment A - a Bezier curve from the host's top edge to segment B.
-    // Segment B - an arc with radius notchRadius.
-    // Segment C - a Bezier curve from segment B back to the host's top edge.
-    //
-    // A detailed explanation and the derivation of the formulas below is
-    // available at: https://goo.gl/Ufzrqn
-
-
-    // double halfWidth = width / 2;
-    //
-    // double bigRadius = halfWidth;
-    //
-    // double radius = halfWidth / 2;
-    //
-    // double degreesPerStep = _degToRad(360 / numberOfPoints);
-
-    // double halfDegreesPerStep = degreesPerStep / 2;
-
-    var path = Path();
-    //
-    // double max = 2 * math.pi;
-    //
-    // path.moveTo(width, halfWidth);
-    //
-    // for (double step = 0; step < max; step += degreesPerStep) {
-    //   path.lineTo(halfWidth + bigRadius * math.cos(step),
-    //       halfWidth + bigRadius * math.sin(step));
-    //   path.lineTo(halfWidth + radius * math.cos(step + halfDegreesPerStep),
-    //       halfWidth + radius * math.sin(step + halfDegreesPerStep));
-    // }
-    double factor = 20.0;
-    double radius = 50.0;
-    num degToRad(num deg) => deg * (math.pi / 180.0);
-
-    // path.lineTo(0,size.height);
-    // path.lineTo(size.width,size.height);
-    // path.lineTo(size.width,0);
-
-    path.lineTo(0, size.height - factor);
-    path.quadraticBezierTo(0, size.height, factor, size.height);
-    path.lineTo(size.width - factor, size.height);
-    path.quadraticBezierTo(
-        size.width, size.height, size.width, size.height - factor);
-    // path.lineTo(size.width, size.height);
-    path.lineTo(size.width, factor);
-    path.quadraticBezierTo(size.width, 0, size.width - factor, 0);
-    //notch start
-    path.lineTo((size.width / 2) + radius + factor, 0);
-    path.quadraticBezierTo(
-        (size.width / 2) + radius, 0, (size.width / 2) + radius, factor);
-
-    path.quadraticBezierTo(
-        (size.width / 2) + radius, radius, (size.width / 2), radius);
-    path.quadraticBezierTo(
-        (size.width / 2) - radius, radius, (size.width / 2) - radius, factor);
-    path.quadraticBezierTo(
-        (size.width / 2) - radius, 0, (size.width / 2) - radius - factor, 0);
-
-    path.addArc(Rect.fromLTWH(0, 0, size.width, size.height), degToRad(180),
-        degToRad(90));
-
-    path.lineTo((size.width / 2) - radius, 0);
-
-    //notch end
-    path.lineTo(factor, 0);
-    path.quadraticBezierTo(0, 0, 0, factor);
-    path.close();
-    return path;
-  }
-
-  num _degToRad(num deg) => deg * (math.pi / 180.0);
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    // StarClipper oldie = oldClipper as StarClipper;
-    return true;
-  }
-}
 
 class HomePageState extends State<HomePageReboot>
     with SingleTickerProviderStateMixin {
@@ -221,15 +127,8 @@ class HomePageState extends State<HomePageReboot>
 
     if (dailyWeather == null || dailyWeather.length == 0) makeWeatherList("");
 
-    // AddDownloadFlags();
 
-    menuAnimation = AnimationController(
-      duration: const Duration(milliseconds: 250),
-      vsync: this,
-    );
-    menuAnimation.addListener(() {
-      setState(() {});
-    });
+
   }
 
   // final List<MenuData> menuItems = <MenuData>[
@@ -257,46 +156,8 @@ class HomePageState extends State<HomePageReboot>
   //   );
   // }
 
-  Widget flowMenuItem(MenuData menuData) {
-    return Row(
-      children: <Widget>[
-        RawMaterialButton(
-          fillColor:
-              lastTapped == menuData.iconData ? Colors.amber[700] : Colors.blue,
-          splashColor: Colors.amber[100],
-          shape: CircleBorder(),
-          onPressed: () {
-            _updateMenu(menuData.iconData);
-            menuAnimation.status == AnimationStatus.completed
-                ? menuAnimation.reverse()
-                : menuAnimation.forward();
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Icon(
-              menuData.iconData,
-              color: Colors.white,
-              size: 45.0,
-            ),
-          ),
-        ),
-        Transform.scale(
-          scale: menuAnimation.value,
-          child: Opacity(
-            opacity: menuAnimation.value,
-            child: Text(menuData.text),
-          ),
-        ),
-      ],
-    );
-  }
 
-  AnimationController menuAnimation;
-  IconData lastTapped = Icons.notifications;
 
-  void _updateMenu(IconData icon) {
-    if (icon != Icons.menu) setState(() => lastTapped = icon);
-  }
 
   static Localemain string;
   static const platform = const MethodChannel('install_plugin');
@@ -1789,11 +1650,16 @@ class HomePageState extends State<HomePageReboot>
         children: <Widget>[
           Row(
             children: <Widget>[
-              DynamicViews().imageAsset(
-                  context,
-                  "assets/rebootDesign/homePage/scale300/Headphone@3x.png",
-                  24,
-                  isRTL() ? true : false),
+              new Positioned(
+                right: 0.0,
+                bottom: 0.0,
+                child: new Icon(Icons.headphones),
+              ),
+              // DynamicViews().imageAsset(
+              //     context,
+              //     "assets/rebootDesign/homePage/scale300/Headphone@3x.png",
+              //     24,
+              //     isRTL() ? true : false),
               SizedBox(
                 width: 16,
               ),
@@ -1918,16 +1784,16 @@ class HomePageState extends State<HomePageReboot>
                   if (this.mounted) setState(() => selectedIcon = 1);
                 },
                 child: selectedIcon == 1
-                    ? DynamicViews().imageAsset(
-                        context,
-                        "assets/rebootDesign/homePage/scale300/Material@3x.png",
-                        64,
-                        isRTL() ? true : false)
-                    : DynamicViews().imageAsset(
-                        context,
-                        "assets/rebootDesign/homePage/scale300/De_Material@3x.png",
-                        25,
-                        isRTL() ? true : false),
+                    ? new Positioned(
+                  right: 0.0,
+                  bottom: 0.0,
+                  child: new Icon(Icons.star),
+                )
+                    :  new Positioned(
+                  right: 0.0,
+                  bottom: 0.0,
+                  child: new Icon(Icons.star),
+                ),
               ),
             ),
             Expanded(
@@ -1936,32 +1802,40 @@ class HomePageState extends State<HomePageReboot>
                       if (this.mounted) setState(() => selectedIcon = 2);
                     },
                     child: selectedIcon == 2
-                        ? DynamicViews().imageAsset(
+                        ?  new Positioned(
+    right: 0.0,
+    bottom: 0.0,
+    child: new Icon(Icons.headphones),
+    )
+
+                    /*DynamicViews().imageAsset(
                             context,
                             "assets/rebootDesign/homePage/scale300/Labour@3x.png",
                             64,
-                            isRTL() ? true : false)
-                        : DynamicViews().imageAsset(
-                            context,
-                            "assets/rebootDesign/homePage/scale300/De_Labour@3x.png",
-                            30,
-                            isRTL() ? true : false))),
-            Expanded(
-                child: GestureDetector(
-                    onTap: () {
-                      if (this.mounted) setState(() => selectedIcon = 3);
-                    },
-                    child: selectedIcon == 3
-                        ? DynamicViews().imageAsset(
-                            context,
-                            "assets/rebootDesign/homePage/scale300/Graph5Stock@3x.png",
-                            64,
-                            isRTL() ? true : false)
-                        : DynamicViews().imageAsset(
-                            context,
-                            "assets/rebootDesign/homePage/scale300/De_Graph Top5@3x.png",
-                            25,
-                            isRTL() ? true : false))),
+                            isRTL() ? true : false)*/
+                        : new Positioned(
+    right: 0.0,
+    bottom: 0.0,
+    child: new Icon(Icons.headphones),
+    ))),
+
+
+            // Expanded(
+            //     child: GestureDetector(
+            //         onTap: () {
+            //           if (this.mounted) setState(() => selectedIcon = 3);
+            //         },
+            //         child: selectedIcon == 3
+            //             ? DynamicViews().imageAsset(
+            //                 context,
+            //                 "assets/rebootDesign/homePage/scale300/Graph5Stock@3x.png",
+            //                 64,
+            //                 isRTL() ? true : false)
+            //             : DynamicViews().imageAsset(
+            //                 context,
+            //                 "assets/rebootDesign/homePage/scale300/De_Graph Top5@3x.png",
+            //                 25,
+            //                 isRTL() ? true : false))),
           ],
         ));
   }

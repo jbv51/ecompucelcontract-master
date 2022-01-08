@@ -34,10 +34,8 @@ class MeasurementListState extends State<MeasurementList>
       "http://103.133.215.47:8080/app/ecomob/getAllRaBillMBDtls?EMBWorkId=14&RABillid=1";
   String url5item =
       "http://103.133.215.47:8080/app/ecomob/getItemsForBill?EMBWorkId=14";
-  String url6itemdescrib =
-      "http://103.133.215.47:8080/app/ecomob/getDescriptionForBill?EMBWorkId=14";
-  String url8MeasurementMode =
-      "http://103.133.215.47:8080/app/ecomob/getMeasurementModeForBill?ItemId=50";
+
+
   String url7desandqty =
       "http://103.133.215.47:8080/app/ecomob/getDescriptionAndQuantityDetails?EMBWorkId=14&ItemId=50&RABillid=1";
   List<itemCustom> list = [];

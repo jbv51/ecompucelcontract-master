@@ -14,12 +14,12 @@ class Home_page extends StatelessWidget {
       child: GridView.count(
         crossAxisCount: 2,
         children: <Widget>[
-          gridimage("assets/images/ecompse.jpg", "PROFILE",context),
-          gridimage("assets/images/guide.png", "EMB",context),
-          gridimage("assets/images/bill.png", "EBILL",context),
-          gridimage("assets/images/dashboard.png", "MONITORING",context),
-          gridimage("assets/images/report.png", "REPORTS",context),
-          gridimage("assets/images/power.png", "LOGOUT",context)
+          gridimage("assets/images/ecompse.jpg", "PROFILE", context),
+          gridimage("assets/images/guide.png", "EMB", context),
+          gridimage("assets/images/bill.png", "EBILL", context),
+          gridimage("assets/images/dashboard.png", "MONITORING", context),
+          gridimage("assets/images/report.png", "REPORTS", context),
+          gridimage("assets/images/power.png", "LOGOUT", context)
         ],
       ),
     );
@@ -53,44 +53,46 @@ class Home_page extends StatelessWidget {
 
   gridimage(String image, String name, BuildContext context) {
     return InkWell(
-        child:  new Card(
-            color: Colors.white,
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Material(
-                  child: Image.asset(
-                    image,
-                    fit: BoxFit.fitWidth,
-                    height: 100,
-                    width: 100,
-                  ),
-                ),
-                FittedBox(
+      child: new Card(
+          color: Colors.white,
+          child: new Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Material(
+                child: Image.asset(
+                  image,
                   fit: BoxFit.fitWidth,
-                  child: Text(name),
+                  height: 100,
+                  width: 100,
                 ),
-              ],
-            )),
-        onTap: () {
-          switch(name){
-            case "PROFILE":
-              Utils.showToast("Click event on $name");
-              break; case "EMB":
+              ),
+              FittedBox(
+                fit: BoxFit.fitWidth,
+                child: Text(name),
+              ),
+            ],
+          )),
+      onTap: () {
+        switch (name) {
+          case "PROFILE":
             Utils.showToast("Click event on $name");
-    Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(
-    builder: (context) =>
-   rabill()));
-              break; case "EBILL":
+            break;
+          case "EMB":
             Utils.showToast("Click event on $name");
-              break; case "MONITORING":
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: (context) => rabill()));
+            break;
+          case "EBILL":
             Utils.showToast("Click event on $name");
-              break; case "REPORTS":
+            break;
+          case "MONITORING":
             Utils.showToast("Click event on $name");
-              break;case "LOGOUT":
+            break;
+          case "REPORTS":
+            Utils.showToast("Click event on $name");
+            break;
+          case "LOGOUT":
             // Utils.showToast("Click event on $name");
             // Navigator.of(context).pop();
 
@@ -109,25 +111,20 @@ class Home_page extends StatelessWidget {
                     onPressed: () {
                       Navigator.of(context).pop(true);
                       Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                LoginPageWidget(
-                                    title: "",
-                                    state: LoginState.Login)));},
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginPageWidget(
+                                  title: "", state: LoginState.Login)));
+                    },
                     child: new Text('Yes'),
                   ),
                 ],
               ),
             );
 
-              break;
-
-          }
-
-        },
-      );
-
-
+            break;
+        }
+      },
+    );
   }
 }

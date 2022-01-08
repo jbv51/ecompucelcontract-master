@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:ecompusellcontractor/Services/AddMeasurment.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:ecompusellcontractor/Services/MainFragment.dart';
@@ -186,6 +187,11 @@ class rabillState extends State<rabill> with SingleTickerProviderStateMixin {
                                         textColor: Colors.white,
                                         onPressed: () {
                                           Utils.showToast("click RA bill ${data[index].SerialNumber.toString()}");
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddMeasurment()));
                                         },
                                       ),
                                     )

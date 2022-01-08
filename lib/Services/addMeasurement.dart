@@ -1,4 +1,3 @@
-
 import 'package:ecompusellcontractor/Dynamic/DynamicViews.dart';
 import 'package:ecompusellcontractor/Services/MainFragment.dart';
 import 'package:ecompusellcontractor/Utility/LocaleBase.dart';
@@ -11,12 +10,14 @@ import 'package:intl/intl.dart';
 
 class addMeasurement extends StatefulWidget {
   final MainFragmentState mainFragmentState;
+
   const addMeasurement({Key key, this.mainFragmentState}) : super(key: key);
 
-
   @override
-  State<StatefulWidget> createState() => addMeasurementState(this.mainFragmentState);
+  State<StatefulWidget> createState() =>
+      addMeasurementState(this.mainFragmentState);
 }
+
 class addMeasurementState extends State<addMeasurement> {
   MainFragmentState mainFragmentState;
 
@@ -28,16 +29,23 @@ class addMeasurementState extends State<addMeasurement> {
   addMeasurementState(this.mainFragmentState);
 
   int pageType = 1;
-  static TextEditingController _bookingLocationCon = TextEditingController(),
+  static TextEditingController manualMBNoCon = TextEditingController(),
       _dateCon = TextEditingController(),
-      _customerNameCon = TextEditingController(),
-      _customerAddressCon = TextEditingController();
+      manualMBReferenceCon = TextEditingController(),
+      unitCon = TextEditingController(),
+      lengthCon = TextEditingController(),
+      widthCon = TextEditingController(),
+      heightCon = TextEditingController(),
+      TotalQtyCon = TextEditingController(),
+      workDetailsCon = TextEditingController();
 
   // static Localemain string;
 
   DateTime entryDateTime = DateTime.now();
   String selectedOrderType, selectedCurrency, selectedCIF;
-  // List<AD_CurrencyList> clist = [];
+  List<String> clist = ['1.1', '1.2', '1.3'];
+  List<String> clist1 = ['abc', 'def', 'xyz'];
+  List<String> clist2 = ['length*width', 'width*height', 'length*width*height'];
   SessionManager sessionManager;
 
   @override
@@ -54,6 +62,9 @@ class addMeasurementState extends State<addMeasurement> {
     // string = Localizations.of<LocaleBase>(context, LocaleBase).main;
     this.context = context;
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Add Measurement'),
+      ),
       body: body(),
     );
   }
@@ -72,45 +83,95 @@ class addMeasurementState extends State<addMeasurement> {
                     margin: EdgeInsets.only(right: 5),
                     child: DynamicViews(
                       onTap: () async {
-                        // entryDateTime = (await Utils.getDatePicker(context,
-                        //     lastDate: DateTime.now(),
-                        //     initialDate: entryDateTime)) ??
-                        //     entryDateTime;
-                        // _dateCon.text =
-                        //     Utils.getDisplayFormatDate(entryDateTime);
+                        entryDateTime = (await Utils.getDatePicker(context,
+                                lastDate: DateTime.now(),
+                                initialDate: entryDateTime)) ??
+                            entryDateTime;
+                        _dateCon.text =
+                            Utils.getDisplayFormatDate(entryDateTime);
                         // model.mainModel.Booking_Date =
                         //     DateFormat(Utils.sqlDateFormat)
                         //         .format(entryDateTime);
                       },
-                    ).textField2(
-                      label: "Date",
+                    ).textField(
+                      label: "Measurement Date",
                       controller: _dateCon,
                       isEnabled: false,
                       asterisk: false,
-                      path: "assets/rebootDesign/Calendar@3x.png",
-                      imgSize: 14,
                     ),
                   ),
+                  dropDown("Item no", clist),
+                  dropDown1("Item Description", clist1),
+                  dropDown2("Measurement mode", clist2),
                   DynamicViews().textField2(
-                    label: "Bookinglocation",
-                    isEnabled: false,
-                    asterisk: true,
-                    controller: _bookingLocationCon,
-                  ),
-                  DynamicViews().textField2(
-                    label: "CustomerName",
-                    isEnabled: false,
-                    asterisk: true,
-                    controller: _customerNameCon,
-                  ),
-                  // dropDown(string.Ordertype, SBEntryModels().OrderTypelist),
-                  // dropDown1(string.Currency, SBEntryModels().currencylist),
-                  // dropDown2(string.cifsoccnf, SBEntryModels().CIFlist),
-                  DynamicViews().textField2(
-                    label: "CustomerAddress",
+                    label: "Manual MB No",
                     isEnabled: true,
                     asterisk: false,
-                    controller: _customerAddressCon,
+                    controller: manualMBNoCon,
+                  ),
+                  DynamicViews().textField2(
+                    label: "Manual MB Reference",
+                    isEnabled: true,
+                    asterisk: false,
+                    controller: manualMBReferenceCon,
+                  ),
+                  DynamicViews().textField2(
+                    label: "Work details",
+                    isEnabled: true,
+                    asterisk: false,
+                    controller: workDetailsCon,
+                  ),
+                  DynamicViews().textField2(
+                    label: "Unit",
+                    isEnabled: false,
+                    asterisk: false,
+                    controller: unitCon,
+                  ),
+                  DynamicViews(onTextChanged: (text) {
+                    double quantity = double.tryParse(text.toString()) *
+                        double.tryParse(widthCon.text.toString()) *
+                        double.tryParse(heightCon.text.toString());
+
+                    TotalQtyCon.text = quantity.toString();
+                  }).textField2(
+                    label: "Length",
+                    isEnabled: true,
+                    asterisk: false,
+                    keyboard: TextInputType.number,
+                    controller: lengthCon,
+                  ),
+                  DynamicViews(onTextChanged: (text) {
+                    double quantity = double.tryParse(text.toString()) *
+                        double.tryParse(lengthCon.text.toString()) *
+                        double.tryParse(heightCon.text.toString());
+
+                    TotalQtyCon.text = quantity.toString();
+                  }).textField2(
+                    label: "Width",
+                    isEnabled: true,
+                    asterisk: false,
+                    keyboard: TextInputType.number,
+                    controller: widthCon,
+                  ),
+                  DynamicViews(onTextChanged: (text) {
+                    double quantity = double.tryParse(text.toString()) *
+                        double.tryParse(lengthCon.text.toString()) *
+                        double.tryParse(widthCon.text.toString());
+
+                    TotalQtyCon.text = quantity.toString();
+                  }).textField2(
+                    label: "Height",
+                    isEnabled: true,
+                    asterisk: false,
+                    keyboard: TextInputType.number,
+                    controller: heightCon,
+                  ),
+                  DynamicViews().textField2(
+                    label: "Total Quantity",
+                    isEnabled: false,
+                    asterisk: false,
+                    keyboard: TextInputType.number,
+                    controller: TotalQtyCon,
                   ),
                   bottomButtons(),
                 ],
@@ -119,7 +180,11 @@ class addMeasurementState extends State<addMeasurement> {
           ],
         ));
   }
-  bool isRTL() => Directionality.of(context).toString().contains(TextDirection.RTL.value.toLowerCase());
+
+  bool isRTL() => Directionality.of(context)
+      .toString()
+      .contains(TextDirection.RTL.value.toLowerCase());
+
   bottomButtons() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -127,40 +192,27 @@ class addMeasurementState extends State<addMeasurement> {
       children: <Widget>[
         Expanded(
           child: DynamicViews(
-              onTap: () {
-                // if (!validateData()) {
-                //   Utils.showToast("Please check details");
-                // } else {
-                //   model.mainModel.Customer_Name = _customerNameCon.text;
-                //   if (!Utils.checkString(CurrencyId)) {
-                //     model.mainModel.Currency_Id = CurrencyId;
-                //   } else {}
-                //   model.mainModel.Customer_Adderss =
-                //       _customerAddressCon.text.toString();
-                //   model.mainModel.Order_Type = selectedOrderType;
-                //   model.mainModel.Currency = selectedCurrency;
-                //   model.mainModel.CIF_FOB_CNF = selectedCIF;
-                //   model.mainModel.Booking_Date =
-                //       Utils.getSQLFormatDate(entryDateTime);
-                //   // sbFormState.changePage(2, string.ItemDetails, 2);
-                // }
-              },
-              bgColor: RColors.yellow,
-              title: 'Next')
+                  onTap: () {
+                    // if (!validateData()) {
+                    //   Utils.showToast("Please check details");
+                    // } else {
+                    //   model.mainModel.Customer_Name = _customerNameCon.text;
+                    //   if (!Utils.checkString(CurrencyId)) {
+                    //     model.mainModel.Currency_Id = CurrencyId;
+                    //   } else {}
+                    //   model.mainModel.Customer_Adderss =
+                    //       _customerAddressCon.text.toString();
+                    //   model.mainModel.Order_Type = selectedOrderType;
+                    //   model.mainModel.Currency = selectedCurrency;
+                    //   model.mainModel.CIF_FOB_CNF = selectedCIF;
+                    //   model.mainModel.Booking_Date =
+                    //       Utils.getSQLFormatDate(entryDateTime);
+                    //   // sbFormState.changePage(2, string.ItemDetails, 2);
+                    // }
+                  },
+                  bgColor: RColors.blue,
+                  title: 'Add')
               .button(),
-          flex: 80,
-        ),
-        Expanded(
-          flex: 10,
-          child: SizedBox(),
-        ),
-        Expanded(
-          child: GestureDetector(
-            onTap: () => onAttachment(),
-            child: DynamicViews()
-                .imageAsset(context, "assets/rebootDesign/Attchement.png", 24,isRTL()),
-          ),
-          flex: 25,
         ),
       ],
     );
@@ -168,14 +220,14 @@ class addMeasurementState extends State<addMeasurement> {
 
   static bool validateData() {
     bool flag = true;
-    if (!Utils.checkString(_bookingLocationCon.text.toString())) {
+    if (!Utils.checkString(manualMBNoCon.text.toString())) {
       // model.mainModel.Customer_Name = _customerNameCon.text;
     } else {
       Utils.showToast("Please select Location");
       flag = false;
       return flag;
     }
-    if (!Utils.checkString(_customerNameCon.text.toString())) {
+    if (!Utils.checkString(workDetailsCon.text.toString())) {
     } else {
       Utils.showToast("Please select Customer Name");
       flag = false;
@@ -192,7 +244,7 @@ class addMeasurementState extends State<addMeasurement> {
     print(selectedOrderType);
     return Container(
       margin:
-      EdgeInsets.only(top: Utils.getSize(1.4), bottom: Utils.getSize(24.0)),
+          EdgeInsets.only(top: Utils.getSize(1.4), bottom: Utils.getSize(24.0)),
       child: DropdownButtonFormField<String>(
         //DropdownButtonHideUnderline
         decoration: InputDecoration(
@@ -229,9 +281,9 @@ class addMeasurementState extends State<addMeasurement> {
           print(newValue);
           if (newValue == "Domestic") {
             enabled = false;
-            selectedCurrency=null;
-            CurrencyId="";
-            selectedCIF=null;
+            selectedCurrency = null;
+            CurrencyId = "";
+            selectedCIF = null;
           } else {
             enabled = true;
             selectedOrderType = newValue;
@@ -244,51 +296,51 @@ class addMeasurementState extends State<addMeasurement> {
     );
   }
 
-  // dropDown1(label, List<AD_CurrencyList> list) {
-  //   return Container(
-  //     margin:
-  //     EdgeInsets.only(top: Utils.getSize(1.4), bottom: Utils.getSize(24.0)),
-  //     child: DropdownButtonFormField<String>(
-  //       //DropdownButtonHideUnderline
-  //       decoration: InputDecoration(
-  //         labelText: label,
-  //         labelStyle: TextStyle(
-  //             fontSize: Utils.getSize(16.0),
-  //             fontFamily: "Lato",
-  //             color: Colors.grey[500]),
-  //         alignLabelWithHint: true,
-  //         contentPadding: EdgeInsets.only(bottom: 0),
-  //         enabledBorder: UnderlineInputBorder(
-  //           borderSide: BorderSide(color: RColors.black),
-  //         ),
-  //         focusedBorder: UnderlineInputBorder(
-  //           borderSide: BorderSide(color: RColors.black),
-  //         ),
-  //       ),
-  //       icon: Icon(Icons.keyboard_arrow_down),
-  //       iconSize: Utils.getSize(24.0),
-  //       isExpanded: false,
-  //       value: selectedCurrency,
-  //       style: DynamicViews.textStyle,
-  //       items: list.map((AD_CurrencyList value) {
-  //         return new DropdownMenuItem<String>(
-  //           value: value.Abbreation.toString(),
-  //           child: Container(
-  //             child: DynamicViews().text2(context, value.Abbreation.toString(),
-  //                 16.0, FontWeight.normal, RColors.black, TextAlign.left),
-  //           ),
-  //         );
-  //       }).toList(),
-  //       onChanged:
-  //       enabled ? (value) => setState(() => setcurrency(value)) : null,
-  //     ),
-  //   );
-  // }
+  dropDown1(label, List<String> list) {
+    return Container(
+      margin:
+          EdgeInsets.only(top: Utils.getSize(1.4), bottom: Utils.getSize(24.0)),
+      child: DropdownButtonFormField<String>(
+        //DropdownButtonHideUnderline
+        decoration: InputDecoration(
+          labelText: label,
+          labelStyle: TextStyle(
+              fontSize: Utils.getSize(16.0),
+              fontFamily: "Lato",
+              color: Colors.grey[500]),
+          alignLabelWithHint: true,
+          contentPadding: EdgeInsets.only(bottom: 0),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: RColors.black),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: RColors.black),
+          ),
+        ),
+        icon: Icon(Icons.keyboard_arrow_down),
+        iconSize: Utils.getSize(24.0),
+        isExpanded: false,
+        value: selectedCurrency,
+        style: DynamicViews.textStyle,
+        items: list.map((String value) {
+          return new DropdownMenuItem<String>(
+            value: value.toString(),
+            child: Container(
+              child: DynamicViews().text2(context, value.toString(), 16.0,
+                  FontWeight.normal, RColors.black, TextAlign.left),
+            ),
+          );
+        }).toList(),
+        onChanged:
+            enabled ? (value) => setState(() => setcurrency(value)) : null,
+      ),
+    );
+  }
 
   dropDown2(label, List<String> list) {
     return Container(
       margin:
-      EdgeInsets.only(top: Utils.getSize(1.4), bottom: Utils.getSize(24.0)),
+          EdgeInsets.only(top: Utils.getSize(1.4), bottom: Utils.getSize(24.0)),
       child: DropdownButtonFormField<String>(
         //DropdownButtonHideUnderline
         decoration: InputDecoration(
@@ -321,7 +373,7 @@ class addMeasurementState extends State<addMeasurement> {
           );
         }).toList(),
         onChanged:
-        enabled ? (value) => setState(() => selectedCIF = value) : null,
+            enabled ? (value) => setState(() => selectedCIF = value) : null,
       ),
     );
   }
@@ -401,7 +453,7 @@ class addMeasurementState extends State<addMeasurement> {
     //   if (!Utils.checkString(model.mainModel.Customer_Adderss)) {
     //     _customerAddressCon.text = model.mainModel.Customer_Adderss;
     //   }
-      setState(() {});
+    setState(() {});
     // }
   }
 
@@ -423,8 +475,13 @@ class addMeasurementState extends State<addMeasurement> {
 
   static void clearData() {
     _dateCon.clear();
-    _bookingLocationCon.clear();
-    _customerNameCon.clear();
-    _customerAddressCon.clear();
+    manualMBNoCon.clear();
+    workDetailsCon.clear();
+    TotalQtyCon.clear();
+    unitCon.clear();
+    lengthCon.clear();
+    widthCon.clear();
+    heightCon.clear();
+    manualMBReferenceCon.clear();
   }
 }

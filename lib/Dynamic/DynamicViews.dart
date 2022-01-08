@@ -2503,7 +2503,7 @@ class DynamicViews {
                     RColors.white,
                     //redDark
                     "Delete",
-                    "assets/rebootDesign/commonImages/slider/delete.png",
+                    "assets/images/slider/delete.png",
                     35,
                     false),
               if (onTapP != null)
@@ -2513,7 +2513,7 @@ class DynamicViews {
                     RColors.white,
                     "Preview",
                     //lightGreen
-                    "assets/rebootDesign/commonImages/slider/preview.png",
+                    "assets/images/slider/preview.png",
                     35,
                     false),
               if (onTapA != null)
@@ -2523,7 +2523,7 @@ class DynamicViews {
                     RColors.white,
                     //blue,
                     "Attachment",
-                    "assets/rebootDesign/commonImages/3x/Attchement@3x.png",
+                    "assets/images/slider/Attchement@3x.png",
                     35,
                     false),
               if (onTapE != null)
@@ -2533,7 +2533,7 @@ class DynamicViews {
                     RColors.white,
                     //purple
                     "Edit",
-                    "assets/rebootDesign/commonImages/slider/edit.png",
+                    "assets/images/slider/edit.png",
                     35,
                     false),
               if (onTapC != null)

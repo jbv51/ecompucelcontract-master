@@ -180,6 +180,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/images/slider/
 #    - assets/string/
 #    - assets/rebootDesign/homePage/scale300/
 #    - assets/rebootDesign/homePage/

@@ -42,23 +42,26 @@ class addMeasurementState extends State<addMeasurement> {
       widthCon = TextEditingController(),
       heightCon = TextEditingController(),
       TotalQtyCon = TextEditingController(),
+      itemdescriptionCon = TextEditingController(),
+      mmodeCon = TextEditingController(),
       workDetailsCon = TextEditingController();
 
   DateTime entryDateTime = DateTime.now();
   String selectedOrderType, selectedCurrency, selectedCIF;
-  List<itemCustom> itemnolist = [];
+  static List<itemCustom> itemnolist = [];
   List<itemCustom> itemDescriptionlist = [];
   List<measurementModeCustom> mmodelist = [];
-  String itemnoUnit,itemdes,mmodeunit;
+  desDetails itemqtydetails = new desDetails();
+  static String itemnoUnit, itemdes, mmodeunit;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getpreviousdata();
-    getItemno();
+    // getItemno();
     getItemDescription();
-    getMeasurementMode();
+    getMeasurementMode('50');
   }
 
   @override
@@ -104,13 +107,32 @@ class addMeasurementState extends State<addMeasurement> {
                       asterisk: false,
                     ),
                   ),
+                  if(itemnolist!=null&&itemnolist.length>0)
                   dropDown("Item no", itemnolist, itemnoUnit),
-                  dropDowndes("Item Description", itemDescriptionlist,itemdes),
-                  dropDownmm("Measurement mode", mmodelist,mmodeunit),
+
+                  DynamicViews().textField2(
+                    label: "Item Description",
+                    isEnabled: true,
+                    asterisk: false,
+                    controller: itemdescriptionCon,
+                  ),
+                  DynamicViews().textField2(
+                    label: "Measurement mode",
+                    isEnabled: true,
+                    asterisk: false,
+                    controller: mmodeCon,
+                  ),
+
+                  // dropDownmm("Measurement mode", mmodelist, mmodeunit),
                   Column(
                     children: [
-                      DynamicViews().text2(context, "Item Quantity Details", 14,
-                          FontWeight.bold, RColors.textColorDark, TextAlign.center),
+                      DynamicViews().text2(
+                          context,
+                          "Item Quantity Details",
+                          14,
+                          FontWeight.bold,
+                          RColors.textColorDark,
+                          TextAlign.center),
                       Card(
                           elevation: 2,
                           color: RColors.lightGreenLL,
@@ -136,7 +158,8 @@ class addMeasurementState extends State<addMeasurement> {
                                         flex: 1,
                                         child: DynamicViews().text2(
                                             context,
-                                            "1000",
+                                            Utils.getZeroIfNull(itemqtydetails
+                                                .QuantityEstimated.toString()),
                                             14,
                                             FontWeight.normal,
                                             RColors.textColorDark,
@@ -160,7 +183,9 @@ class addMeasurementState extends State<addMeasurement> {
                                         flex: 1,
                                         child: DynamicViews().text2(
                                             context,
-                                            "1000",
+                                            Utils.getZeroIfNull(itemqtydetails
+                                                .totalQty
+                                                .toString()),
                                             14,
                                             FontWeight.normal,
                                             RColors.textColorDark,
@@ -184,7 +209,9 @@ class addMeasurementState extends State<addMeasurement> {
                                         flex: 1,
                                         child: DynamicViews().text2(
                                             context,
-                                            "1000",
+                                            Utils.getZeroIfNull(itemqtydetails
+                                                .currentTotal
+                                                .toString()),
                                             14,
                                             FontWeight.normal,
                                             RColors.textColorDark,
@@ -208,7 +235,9 @@ class addMeasurementState extends State<addMeasurement> {
                                         flex: 1,
                                         child: DynamicViews().text2(
                                             context,
-                                            "1000",
+                                            Utils.getZeroIfNull(itemqtydetails
+                                                .balnceQty
+                                                .toString()),
                                             14,
                                             FontWeight.normal,
                                             RColors.textColorDark,
@@ -232,7 +261,8 @@ class addMeasurementState extends State<addMeasurement> {
                                         flex: 1,
                                         child: DynamicViews().text2(
                                             context,
-                                            "1000",
+                                            Utils.getZeroIfNull(itemqtydetails
+                                                .ExcessQty.toString()),
                                             14,
                                             FontWeight.normal,
                                             RColors.textColorDark,
@@ -245,7 +275,6 @@ class addMeasurementState extends State<addMeasurement> {
                           )),
                     ],
                   ),
-
                   DynamicViews().textField2(
                     label: "Manual MB No",
                     isEnabled: true,
@@ -401,7 +430,7 @@ class addMeasurementState extends State<addMeasurement> {
     return Container(
       margin:
           EdgeInsets.only(top: Utils.getSize(1.4), bottom: Utils.getSize(24.0)),
-      child: DropdownButtonFormField<String>(
+      child: DropdownButtonFormField<itemCustom>(
         //DropdownButtonHideUnderline
         decoration: InputDecoration(
           labelText: label,
@@ -421,11 +450,11 @@ class addMeasurementState extends State<addMeasurement> {
         icon: Icon(Icons.keyboard_arrow_down),
         iconSize: Utils.getSize(24.0),
         isExpanded: false,
-        value: currentUnit,
+        value: list[0],
         style: DynamicViews.textStyle,
         items: list.map((itemCustom value) {
-          return new DropdownMenuItem<String>(
-            value: value.ItemNo.toString(),
+          return new DropdownMenuItem<itemCustom>(
+            value: value,
             child: Container(
               // margin: EdgeInsets.symmetric(horizontal: Utils.getSize(16)),
               width: Utils.getSize(135),
@@ -434,116 +463,130 @@ class addMeasurementState extends State<addMeasurement> {
             ),
           );
         }).toList(),
-        onChanged: (String newValue) {
+        onChanged: (itemCustom newValue) {
           setState(() {
-            currentUnit = newValue;
-            Utils.showToast("unit=$newValue");
-            // setUnitId(currentUnit);
+            currentUnit = newValue.ItemNo;
+            var rectid=newValue.RecId;
+            // for (var f in itemnolist) {
+            //   if (f.ItemNo == newValue) {
+            //     rectid = f.RecId;
+            //   }
+            // }
+            setUnitId(rectid.toString());
           });
         },
       ),
     );
   }
+
   dropDowndes(label, List<itemCustom> list, String currentUnit) {
     return Container(
-      margin:
-          EdgeInsets.only(top: Utils.getSize(1.4), bottom: Utils.getSize(24.0)),
-    child: IgnorePointer(
-    ignoring:  enabled,
-      child: DropdownButtonFormField<String>(
-        //DropdownButtonHideUnderline
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: TextStyle(
-              fontSize: Utils.getSize(16.0),
-              fontFamily: "Lato",
-              color: Colors.grey[500]),
-          alignLabelWithHint: true,
-          contentPadding: EdgeInsets.only(bottom: 0),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: RColors.black),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: RColors.black),
-          ),
-        ),
-        icon: Icon(Icons.keyboard_arrow_down),
-        iconSize: Utils.getSize(24.0),
-        isExpanded: false,
-        value: currentUnit,
-        style: DynamicViews.textStyle,
-        items: list.map((itemCustom value) {
-          return new DropdownMenuItem<String>(
-            value: value.Description.toString(),
-            child: Container(
-              // margin: EdgeInsets.symmetric(horizontal: Utils.getSize(16)),
-              width: Utils.getSize(135),
-              child: DynamicViews().text2(context, value.Description.toString(), 16,
-                  FontWeight.normal, RColors.black, TextAlign.left),
+        margin: EdgeInsets.only(
+            top: Utils.getSize(1.4), bottom: Utils.getSize(24.0)),
+        child: IgnorePointer(
+          ignoring: enabled,
+          child: DropdownButtonFormField<String>(
+            //DropdownButtonHideUnderline
+            decoration: InputDecoration(
+              labelText: label,
+              labelStyle: TextStyle(
+                  fontSize: Utils.getSize(16.0),
+                  fontFamily: "Lato",
+                  color: Colors.grey[500]),
+              alignLabelWithHint: true,
+              contentPadding: EdgeInsets.only(bottom: 0),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: RColors.black),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: RColors.black),
+              ),
             ),
-          );
-        }).toList(),
-        onChanged: (String newValue) {
-          setState(() {
-            currentUnit = newValue;
-            // Utils.showToast("unit=$newValue");
-            // setUnitId(currentUnit);
-          });
-        },
-      ),)
-    );
-  }
-  dropDownmm(label, List<measurementModeCustom> list, String currentUnit) {
-    return Container(
-      margin:
-          EdgeInsets.only(top: Utils.getSize(1.4), bottom: Utils.getSize(24.0)),
-    child: IgnorePointer(
-    ignoring:  enabled,
-      child: DropdownButtonFormField<String>(
-        //DropdownButtonHideUnderline
-        decoration: InputDecoration(
-          labelText: label,
-          labelStyle: TextStyle(
-              fontSize: Utils.getSize(16.0),
-              fontFamily: "Lato",
-              color: Colors.grey[500]),
-          alignLabelWithHint: true,
-          contentPadding: EdgeInsets.only(bottom: 0),
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: RColors.black),
+            icon: Icon(Icons.keyboard_arrow_down),
+            iconSize: Utils.getSize(24.0),
+            isExpanded: false,
+            value: currentUnit,
+            style: DynamicViews.textStyle,
+            items: list.map((itemCustom value) {
+              return new DropdownMenuItem<String>(
+                value: value.Description,
+                child: Container(
+                  // margin: EdgeInsets.symmetric(horizontal: Utils.getSize(16)),
+                  width: Utils.getSize(135),
+                  child: DynamicViews().text2(
+                      context,
+                      value.Description.toString(),
+                      16,
+                      FontWeight.normal,
+                      RColors.black,
+                      TextAlign.left),
+                ),
+              );
+            }).toList(),
+            // onChanged: (itemCustom newValue) {
+            //   setState(() {
+            //     itemdes = newValue.Description;
+            //
+            //   });
+            // },
           ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: RColors.black),
-          ),
-        ),
-        icon: Icon(Icons.keyboard_arrow_down),
-        iconSize: Utils.getSize(24.0),
-        isExpanded: false,
-        value: currentUnit,
-        style: DynamicViews.textStyle,
-        items: list.map((measurementModeCustom value) {
-          return new DropdownMenuItem<String>(
-            value: value.actualFormula.toString(),
-            child: Container(
-              // margin: EdgeInsets.symmetric(horizontal: Utils.getSize(16)),
-              width: Utils.getSize(135),
-              child: DynamicViews().text2(context, value.actualFormula.toString(), 16,
-                  FontWeight.normal, RColors.black, TextAlign.left),
-            ),
-          );
-        }).toList(),
-        onChanged: (String newValue) {
-          setState(() {
-            currentUnit = newValue;
-            // Utils.showToast("unit=$newValue");
-            // setUnitId(currentUnit);
-          });
-        },
-      ),)
-    );
+        ));
   }
 
-  Future<List<itemCustom>> getItemno() async {
+  dropDownmm(label, List<measurementModeCustom> list, String currentUnit) {
+    return Container(
+        margin: EdgeInsets.only(
+            top: Utils.getSize(1.4), bottom: Utils.getSize(24.0)),
+        child: IgnorePointer(
+          ignoring: enabled,
+          child: DropdownButtonFormField<String>(
+            //DropdownButtonHideUnderline
+            decoration: InputDecoration(
+              labelText: label,
+              labelStyle: TextStyle(
+                  fontSize: Utils.getSize(16.0),
+                  fontFamily: "Lato",
+                  color: Colors.grey[500]),
+              alignLabelWithHint: true,
+              contentPadding: EdgeInsets.only(bottom: 0),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: RColors.black),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: RColors.black),
+              ),
+            ),
+            icon: Icon(Icons.keyboard_arrow_down),
+            iconSize: Utils.getSize(24.0),
+            isExpanded: false,
+            value: currentUnit,
+            style: DynamicViews.textStyle,
+            items: list.map((measurementModeCustom value) {
+              return new DropdownMenuItem<String>(
+                value: value.actualFormula,
+                child: Container(
+                  // margin: EdgeInsets.symmetric(horizontal: Utils.getSize(16)),
+                  width: Utils.getSize(135),
+                  child: DynamicViews().text2(
+                      context,
+                      value.actualFormula.toString(),
+                      16,
+                      FontWeight.normal,
+                      RColors.black,
+                      TextAlign.left),
+                ),
+              );
+            }).toList(),
+            onChanged: (String newValue) {
+              setState(() {
+                mmodeunit = newValue;
+              });
+            },
+          ),
+        ));
+  }
+
+  static Future<List<itemCustom>> getItemno() async {
     String url5item =
         "http://103.133.215.47:8080/app/ecomob/getItemsForBill?EMBWorkId=14";
     final response = await http.post(Uri.parse(url5item));
@@ -553,15 +596,18 @@ class addMeasurementState extends State<addMeasurement> {
       final parsed = jsonDecode(response.body).cast<Map<String, dynamic>>();
       itemnolist.addAll(
           parsed.map<itemCustom>((json) => itemCustom.fromJson(json)).toList());
-      setState(() {});
+
       itemnoUnit = itemnolist[0].ItemNo.toString();
       Utils.showLog("bv", "list" + itemnolist.toString());
-      return itemnolist;
+      var temp = Set.of(itemnolist).toList();
+      Utils.showLog("bv", "no duplicate list" + temp.toString());
+      return itemnolist.toSet().toList();
     } else {
       Utils.showLog("bv", "else");
       throw Exception('Unexpected error occured!');
     }
   }
+
   Future<List<itemCustom>> getItemDescription() async {
     String url6itemdescrib =
         "http://103.133.215.47:8080/app/ecomob/getDescriptionForBill?EMBWorkId=14";
@@ -575,23 +621,27 @@ class addMeasurementState extends State<addMeasurement> {
           parsed.map<itemCustom>((json) => itemCustom.fromJson(json)).toList());
       setState(() {});
       itemdes = itemDescriptionlist[0].Description.toString();
-      Utils.showLog("bv", "itemDescriptionlist" + itemDescriptionlist.toString());
+      Utils.showLog(
+          "bv", "itemDescriptionlist" + itemDescriptionlist.toString());
       return itemDescriptionlist;
     } else {
       Utils.showLog("bv", "else");
       throw Exception('Unexpected error occured!');
     }
   }
-  Future<List<measurementModeCustom>> getMeasurementMode() async {
+
+  Future<List<measurementModeCustom>> getMeasurementMode(String itemid) async {
     String url8MeasurementMode =
-        "http://103.133.215.47:8080/app/ecomob/getMeasurementModeForBill?ItemId=50";
+        "http://103.133.215.47:8080/app/ecomob/getMeasurementModeForBill?ItemId=$itemid";
     final response = await http.post(Uri.parse(url8MeasurementMode));
 
     Utils.showLog("bv", response.statusCode.toString());
     if (response.statusCode == 200) {
       final parsed = jsonDecode(response.body).cast<Map<String, dynamic>>();
-      mmodelist.addAll(
-          parsed.map<measurementModeCustom>((json) => measurementModeCustom.fromJson(json)).toList());
+      mmodelist.addAll(parsed
+          .map<measurementModeCustom>(
+              (json) => measurementModeCustom.fromJson(json))
+          .toList());
       setState(() {});
       mmodeunit = mmodelist[0].actualFormula.toString();
       Utils.showLog("bv", "mmodelist" + mmodelist.toString());
@@ -602,62 +652,28 @@ class addMeasurementState extends State<addMeasurement> {
     }
   }
 
-  // dropDown(label, List<String> list) {
-  //   print(selectedOrderType);
-  //   return Container(
-  //     margin:
-  //         EdgeInsets.only(top: Utils.getSize(1.4), bottom: Utils.getSize(24.0)),
-  //     child: DropdownButtonFormField<String>(
-  //       //DropdownButtonHideUnderline
-  //       decoration: InputDecoration(
-  //         labelText: label,
-  //         labelStyle: TextStyle(
-  //             fontSize: Utils.getSize(16.0),
-  //             fontFamily: "Lato",
-  //             color: Colors.grey[500]),
-  //         alignLabelWithHint: true,
-  //         contentPadding: EdgeInsets.only(bottom: 0),
-  //         enabledBorder: UnderlineInputBorder(
-  //           borderSide: BorderSide(color: RColors.black),
-  //         ),
-  //         focusedBorder: UnderlineInputBorder(
-  //           borderSide: BorderSide(color: RColors.black),
-  //         ),
-  //       ),
-  //       icon: Icon(Icons.keyboard_arrow_down),
-  //       iconSize: Utils.getSize(24.0),
-  //       isExpanded: false,
-  //       value: selectedOrderType,
-  //       style: DynamicViews.textStyle,
-  //       items: list.map((String model) {
-  //         return new DropdownMenuItem<String>(
-  //           value: model,
-  //           child: Container(
-  //             child: DynamicViews().text2(context, model, 16.0,
-  //                 FontWeight.normal, RColors.black, TextAlign.left),
-  //           ),
-  //         );
-  //       }).toList(),
-  //       onChanged: (String newValue) {
-  //         // setState(() {
-  //         print(newValue);
-  //         if (newValue == "Domestic") {
-  //           enabled = false;
-  //           selectedCurrency = null;
-  //           CurrencyId = "";
-  //           selectedCIF = null;
-  //         } else {
-  //           enabled = true;
-  //           selectedOrderType = newValue;
-  //         }
-  //         setState(() {});
-  //         // }
-  //         // );
-  //       },
-  //     ),
-  //   );
-  // }
+  Future<desDetails> getItemQtyDetails(
+      String EMBWorkId, String RABillid, String ItemId) async {
+    String url8MeasurementMode =
+        "http://103.133.215.47:8080/app/ecomob/getDescriptionAndQuantityDetails?EMBWorkId=$EMBWorkId&ItemId=$ItemId&RABillid=$RABillid";
+    final response = await http.post(Uri.parse(url8MeasurementMode));
 
+    Utils.showLog("bv", response.statusCode.toString());
+    if (response.statusCode == 200) {
+      Tutorial tutorial =
+          Tutorial.fromJson(jsonDecode(response.body.toString()));
+      Utils.showLog("bv", "tutorial " + tutorial.toString());
+      itemqtydetails = (tutorial.author);
+      setState(() {});
+
+      Utils.showLog(
+          "bv", "itemqtydetails " + itemqtydetails.currentTotal.toString());
+      return itemqtydetails;
+    } else {
+      Utils.showLog("bv", "else");
+      throw Exception('Unexpected error occured!');
+    }
+  }
 
   void getpreviousdata() {
     // if (model.mainModel != null) {
@@ -738,22 +754,6 @@ class addMeasurementState extends State<addMeasurement> {
     // }
   }
 
-  setcurrency(value) {
-    // if (SBEntryModels().currencylist != null) {
-    //   for (int i = 0; i < SBEntryModels().currencylist.length; i++) {
-    //     if (value == (SBEntryModels().currencylist[i].Abbreation.toString())) {
-    //       CurrencyId = SBEntryModels().currencylist[i].Currency_ID.toString();
-    //       selectedCurrency =
-    //           SBEntryModels().currencylist[i].Abbreation.toString();
-    //     }
-    //   }
-    // }
-    // Utils.showLog("tag", "value="+value);
-    // Utils.showLog("tag", "CurrencyId="+CurrencyId);
-    // Utils.showLog("tag", "selectedCurrency="+selectedCurrency);
-    setState(() {});
-  }
-
   static void clearData() {
     _dateCon.clear();
     manualMBNoCon.clear();
@@ -764,5 +764,68 @@ class addMeasurementState extends State<addMeasurement> {
     widthCon.clear();
     heightCon.clear();
     manualMBReferenceCon.clear();
+    itemnolist.clear();
+  }
+
+  void setUnitId(String itemid) async {
+    Utils.showLog("bv", 'itemid=$itemid');
+    getItemQtyDetails('14', '1', itemid);
+
+    for (var f in itemDescriptionlist) {
+      if (f.RecId.toString() == itemid) {
+        itemdes = f.Description.toString();
+      }
+    }
+    itemdescriptionCon.text = itemdes;
+
+    Utils.showLog("bv", 'itemdes=$itemdes');
+
+    await getMeasurementMode(itemid);
+    mmodeCon.text = mmodeunit;
+    Utils.showLog("bv", 'mmodeunit=$mmodeunit');
+    setState(() {});
+  }
+}
+
+class desDetails {
+  dynamic QuantityEstimated,
+      Description,
+      totalQty,
+      ExcessQty,
+      currentTotal,
+      balnceQty;
+
+  desDetails(
+      {this.QuantityEstimated,
+      this.Description,
+      this.totalQty,
+      this.ExcessQty,
+      this.currentTotal,
+      this.balnceQty});
+
+  factory desDetails.fromJson(Map<String, dynamic> json) {
+    return desDetails(
+      QuantityEstimated: json['QuantityEstimated'],
+      Description: json['Description'],
+      totalQty: json['totalQty'],
+      ExcessQty: json['ExcessQty'],
+      currentTotal: json['currentTotal'],
+      balnceQty: json['balnceQty'],
+    );
+  }
+}
+
+class Tutorial {
+  desDetails author;
+
+  Tutorial(this.author);
+
+  factory Tutorial.fromJson(dynamic json) {
+    return Tutorial(desDetails.fromJson(json['desDetails']));
+  }
+
+  @override
+  String toString() {
+    return '{ ${this.author} }';
   }
 }

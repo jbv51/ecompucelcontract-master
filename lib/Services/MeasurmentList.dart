@@ -32,9 +32,6 @@ class MeasurementListState extends State<MeasurementList>
       "http://103.133.215.47:8080/app/ecomob/getAllContractorRABillDtls?EMBWorkId=14";
   String url4m =
       "http://103.133.215.47:8080/app/ecomob/getAllRaBillMBDtls?EMBWorkId=14&RABillid=1";
-  String url5item =
-      "http://103.133.215.47:8080/app/ecomob/getItemsForBill?EMBWorkId=14";
-
 
   String url7desandqty =
       "http://103.133.215.47:8080/app/ecomob/getDescriptionAndQuantityDetails?EMBWorkId=14&ItemId=50&RABillid=1";
@@ -67,6 +64,8 @@ class MeasurementListState extends State<MeasurementList>
             floatingActionButton: FloatingActionButton.extended(
               onPressed: () {
                 Utils.showToast("add measurment here..");
+                addMeasurementState.getItemno();
+                addMeasurementState.clearData();
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

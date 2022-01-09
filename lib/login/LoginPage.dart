@@ -96,7 +96,7 @@ class LoginPage extends State<LoginPageWidget>
       onWillPop: () async => _onBackPressed(),
       child:
           // !isRefreshed ? DynamicViews.progressBar(50, 50) :
-          createWidget(),
+          createWidget(context),
     );
   }
 
@@ -212,7 +212,7 @@ class LoginPage extends State<LoginPageWidget>
 
   int preveouscalled = 0;
 
-  createWidget() {
+  createWidget(BuildContext context) {
     // if (!isCalled) {
     //   return DynamicViews.progressBar(50, 50);
     // } else {
@@ -457,7 +457,7 @@ class LoginPage extends State<LoginPageWidget>
     // }
   }
 
-  changeThePage() {
+  changeThePage( ) {
     loginBloc.dispose();
     Navigator.pushAndRemoveUntil(
         context,

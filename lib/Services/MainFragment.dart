@@ -2742,7 +2742,7 @@ class MainFragmentState extends State<MainFragment>
   service() {
     switch (serviceCode) {
       case "HomePage":
-        return Home_page();
+        return Home_page(mainFragmentState: this);
 /*      case "MapPlotDetails":
         return MapPlotView(mainFragmentState: this);
 
@@ -3179,7 +3179,7 @@ class MainFragmentState extends State<MainFragment>
         return NOForm(mainFragmentState: this);*/
 
       default:
-        return Home_page();
+        return Home_page(mainFragmentState: this);
     }
   }
 

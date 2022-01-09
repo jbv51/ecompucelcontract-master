@@ -25,7 +25,13 @@ class rabillState extends State<rabill> with SingleTickerProviderStateMixin {
   String url =
       "http://103.133.215.47:8080/app/ecomob/addContractorRABillDtls?EMBWorkId=14&contractorid=19";
 
-  rabillState(this.mainFragmentState) {}
+  rabillState(this.mainFragmentState) {
+
+    mainFragmentState.onBackPressed = () {
+      mainFragmentState.callFragment(
+          "ServiceList", "Services", false, false);
+    };
+  }
 
   @override
   void initState() {
